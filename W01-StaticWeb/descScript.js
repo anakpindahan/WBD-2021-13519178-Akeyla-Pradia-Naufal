@@ -84,46 +84,30 @@ const booksList = {
     ]
   };
 
-for(let i = 0; i < booksList["books"].length; i++){
-  let diviProd = document.createElement('div');
-  diviProd.classList.add("product");
-  
-  let diviProdTop = document.createElement('div');
-  diviProdTop.classList.add("product-top");
-  
-  let diviProdPri = document.createElement('div');
-  diviProdPri.classList.add("product-price");
-  
-  let para = document.createElement('p');
-  para.innerText = booksList["books"][i]["judul"];
-
-  let head2 = document.createElement('h2');
-  head2.innerText = "Rp. " + booksList["books"][i]["primer"]["harga"];
+  var id = sessionStorage.getItem("id");
 
   let ima = document.createElement('img');
   ima.classList.add("product-image");
-  ima.src = booksList["books"][i]["primer"]["url-foto"];
-  ima.alt = booksList["books"][i]["judul"];
+  ima.src = booksList["books"][id]["primer"]["url-foto"];
+  ima.alt = booksList["books"][id]["judul"];
 
-  let but = document.createElement('button');
-  but.classList.add("product-button");
-  but.innerText = "Detail";
-  but.onclick = function(){
-    sessionStorage.setItem("id", i);
-    location.href = "description.html";
-  };
+  let divi = document.createElement('div');
+  divi.classList.add("product-texts");
 
-  diviProdPri.appendChild(head2);
+  let paraJudul = document.createElement('p');
+  paraJudul.innerText = "Judul: " + booksList["books"][id]["judul"];
+  divi.appendChild(paraJudul);
 
-  diviProdTop.appendChild(para);
+  let paraHarga = document.createElement('p');
+  paraHarga.innerText = "Harga: Rp. " + booksList["books"][id]["primer"]["harga"];
+  divi.appendChild(paraHarga);
 
-  diviProd.appendChild(ima);
+  for(let property in booksList["books"][id]["deskripsi"]){
+      let paraProp = document.createElement('p');
+      paraProp.innerText = property + ": " + booksList["books"][id]["deskripsi"][property];
+      divi.appendChild(paraProp);
+  }
+
+  document.getElementById("product-description").appendChild(ima);
+  document.getElementById("product-description").appendChild(divi);
   
-  diviProd.appendChild(diviProdTop);
-
-  diviProd.appendChild(diviProdPri);
-
-  diviProd.appendChild(but);
-
-  document.getElementById("product-container").appendChild(diviProd);
-}
